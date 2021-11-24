@@ -1,0 +1,2 @@
+PYTHONPATH=crlapi python grow_moe/crlapi_experiments/anytime/my_mnist/run.py -cn test_finetune_moe.yaml n_megabatches=10 clmodel.max_epochs=100 clmodel.patience=100 clmodel.patience_delta=0 clmodel.model.n_layers=2 clmodel.model.size_layers=4,32 gpus=1 partition=devlab  +run=0,1 --multirun
+

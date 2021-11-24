@@ -1,0 +1,47 @@
+logger:
+    class_name: crlapi.logger.TFLogger
+    log_dir: ./tmp_budget
+    verbose: False
+    cache_size: 10000
+    modulo: 1
+
+seed: 432
+stream:
+    train:
+        class_name: crlapi.sl.streams.emnist.EMNISTTrainAnytimeStream
+        n_megabatches: 1
+        seed: ${seed}
+        split: byclass
+        directory: /Users/denoyer/workspace/.data
+    evaluation:
+        class_name: crlapi.sl.streams.emnist.EMNISTEvaluationAnytimeStream
+        n_megabatches: 1
+        seed: ${seed}
+        split: byclass
+        directory: /Users/denoyer/workspace/.data
+
+clmodel:
+    class_name: crlapi.sl.clmodels.finetune_grow.Finetune_Grow
+    cached_dl: True
+    validation_proportion: 0.1
+    training_batch_size: 64
+    training_num_workers: 2
+    validation_batch_size: 64
+    validation_num_workers: 2
+    max_epochs: 10
+    device: cpu
+
+    optim:
+        class_name: torch.optim.Adam
+        lr: 0.01
+
+    model:
+        class_name: crlapi.sl.architectures.mlp.MLP
+        size_layers: 64
+        n_layers: 2
+
+evaluation:
+    mode: all_tasks
+    batch_size: 64
+    num_workers: 2
+    device: cpu
