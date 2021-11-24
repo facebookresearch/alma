@@ -49,3 +49,8 @@ PYTHONPATH=./ python configs/mnist/run.py -cn test_usage_gmoe n_megabatches=2 re
 `replay` : whether to use replay or not </br>
 `clmodel.init_from_scratch` : whether to reinitialize the model at every MB. Should only be used when `replay=1` </br>
 `device` : use `cuda` or `cpu` depending on your hardware
+
+## License 
+`alma` is released under the MIT license. See [LICENSE](LICENSE) for additional details about it.
+See also our [Terms of Use](https://opensource.facebook.com/legal/terms) and [Privacy Policy](https://opensource.facebook.com/legal/privacy).
+
