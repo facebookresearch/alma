@@ -1,0 +1,28 @@
+TODO: list out the commands I used here
+
+# Fixed VGG
+PYTHONPATH=crlapi python grow_moe/crlapi_experiments/anytime/cifar10/run.py -cn test_finetune_vgg clmodel.device=cuda clmodel.cache_dl=True clmodel.patience=25,100 clmodel.model.n_channels=4,8,16,32 n_megabatches=1,10,50 +run=0,1,2 --multirun
+
+# Fixed MoE
+PYTHONPATH=crlapi python grow_moe/crlapi_experiments/anytime/cifar10/run.py -cn test_finetune_moe clmodel.device=cuda clmodel.cache_dl=True clmodel.patience=25,100 clmodel.model.n_channels=4,8,16,32 n_megabatches=1,10,50 +run=0,1,2 --multirun
+
+# Growing MoE
+PYTHONPATH=crlapi python grow_moe/crlapi_experiments/anytime/cifar10/run.py -cn test_usage_gmoe clmodel.device=cuda clmodel.cache_dl=True clmodel.patience=25,100 clmodel.model.n_channels=4,8,16,32 n_megabatches=10 clmodel.grow_every=2 +run=0,1,2 --multirun
+
+PYTHONPATH=crlapi python grow_moe/crlapi_experiments/anytime/cifar10/run.py -cn test_usage_gmoe clmodel.device=cuda clmodel.cache_dl=True clmodel.patience=25,100 clmodel.model.n_channels=4,8,16,32 n_megabatches=50 clmodel.grow_every=5 +run=0,1,2 --multirun
+
+
+# Firefly
+PYTHONPATH=crlapi python grow_moe/crlapi_experiments/anytime/cifar10/run.py -cn test_firefly clmodel.device=cuda clmodel.cache_dl=True clmodel.patience=25,100 clmodel.model.n_channels=4,8,16,32 n_megabatches=10 clmodel.grow_every=2 +run=0,1,2 --multirun
+
+PYTHONPATH=crlapi python grow_moe/crlapi_experiments/anytime/cifar10/run.py -cn test_firefly clmodel.device=cuda clmodel.cache_dl=True clmodel.patience=25,100 clmodel.model.n_channels=4,8,16,32 n_megabatches=50 clmodel.grow_every=5 +run=0,1,2 --multirun
+
+
+# Ensemble
+PYTHONPATH=crlapi python grow_moe/crlapi_experiments/anytime/cifar10/run.py -cn test_ensemble_moe clmodel.device=cuda clmodel.cache_dl=True clmodel.patience=25,100 clmodel.model.n_channels=4,8,16,32 n_megabatches=10 +run=0,1,2 --multirun
+
+# Boosting
+PYTHONPATH=crlapi python grow_moe/crlapi_experiments/anytime/cifar10/run.py -cn boosting_moe clmodel.device=cuda clmodel.cache_dl=True clmodel.patience=25,100 clmodel.model.n_channels=4,8,16,32 n_megabatches=10 +run=0,1,2 --multirun
+
+# From Scratch 
+PYTHONPATH=crlapi python grow_moe/crlapi_experiments/anytime/cifar10/run.py -cn from_scratch_each_mb_moe clmodel.device=cuda clmodel.cache_dl=True clmodel.patience=25,100 clmodel.model.n_channels=4,8,16,32 n_megabatches=10 +run=0,1,2 --multirun

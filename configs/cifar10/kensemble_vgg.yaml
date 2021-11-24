@@ -1,0 +1,96 @@
+logger:
+    class_name: crlapi.logger.TFLogger
+    log_dir: ./tmp_budget
+    verbose: False
+    cache_size: 10000
+    modulo: 1
+
+stream:
+    train:
+        class_name: crlapi.sl.streams.cifar10.CIFAR10TrainAnytimeStream
+        n_megabatches: ${n_megabatches}
+        seed: 432
+        directory: ${data_dir}
+    evaluation:
+        class_name: crlapi.sl.streams.cifar10.CIFAR10EvaluationAnytimeStream
+        n_megabatches: 1
+        seed: 432
+        directory: ${data_dir}
+
+clmodel:
+    class_name: crlapi.sl.clmodels.k_ensemble.KEnsemble
+    
+    # Ensemble specific
+    k: 3
+    vote: False
+    
+    init_from_scratch: False
+    cache_dl: True
+    training_batch_size: 128
+    training_num_workers: 4
+
+    validation_proportion: 0.1
+    validation_batch_size: 512
+    validation_num_workers: 4
+    
+    train_replay_proportion: ${replay}
+    validation_replay_proportion: ${replay}
+
+    max_epochs: 100
+    device: ${device}
+
+    patience: 100
+    patience_delta: 0.001
+
+    optim:
+        class_name: torch.optim.SGD
+        lr: 0.01
+        momentum: 0.9
+        weight_decay: 1e-4
+
+    model:
+        class_name: crlapi.sl.architectures.vgg.VGG
+        n_channels: 16
+     
+    kornia_augs:
+      - name: RandomCrop
+        size: [32, 32]
+        padding: 4
+        fill: -1.9
+      - name: RandomHorizontalFlip
+        p:    0.5
+
+evaluation:
+    mode: all_tasks
+    batch_size: 512
+    num_workers: 2
+    device: ${device}
+
+device: 'cuda'
+data_dir: ~/.avalanche/data/ #/Users/denoyer/workspace/.data
+
+# --- SLURM configuration
+time: 1000
+gpus: 1
+partition: learnfair
+n_megabatches: 2
+replay: 0
+
+hydra:
+  launcher:
+    nodes: 1
+    mem_gb: 64
+    max_num_timeout: 3
+    cpus_per_task: 10
+    signal_delay_s: 30
+    timeout_min: ${time}
+    gpus_per_node: ${gpus}
+    tasks_per_node: ${gpus}
+    submitit_folder: '/checkpoint/lucaspc/grow_moe_refac/output'
+    partition: ${partition}
+  job_logging:
+    root:
+      handlers: []
+
+defaults:
+  - hydra/launcher: submitit_slurm
